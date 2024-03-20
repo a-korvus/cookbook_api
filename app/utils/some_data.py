@@ -29,7 +29,7 @@ recipes = [
     },
 ]
 
-ingridients = [
+ingredients = [
     {
         "name": "Хлеб",
         "description": "Кусок свежего хлеба",

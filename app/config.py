@@ -2,14 +2,13 @@
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-CONFIG = SettingsConfigDict(env_file="app/.env", extra='allow')
-
 
 class DBSettings(BaseSettings):
     """Main db configuration object."""
 
     DOCKER: bool
     DOCKER_DB: str
+
     DB_HOST: str
     DB_PORT: int
     DB_USER: str
@@ -32,7 +31,7 @@ class DBSettings(BaseSettings):
             f"{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
 
-    model_config = CONFIG
+    model_config = SettingsConfigDict(env_file="app/.env", extra='allow')
 
 
 db_settings = DBSettings()

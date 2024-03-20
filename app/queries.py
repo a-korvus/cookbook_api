@@ -3,8 +3,8 @@
 from sqlalchemy import insert, select
 
 from .database import Base, async_engine, async_session
-from .models import Recipe, Ingredient, RecipesIngridients
-from .utils.some_data import recipes, ingridients, relationships
+from .models import Recipe, Ingredient, RecipesIngredients
+from .utils.some_data import recipes, ingredients, relationships
 
 
 async def create_tables():
@@ -22,8 +22,8 @@ async def delete_tables():
 async def insert_data():
     """Insert some data into the database."""
     insert_recipes = insert(Recipe).values(recipes)
-    insert_ingridients = insert(Ingredient).values(ingridients)
-    insert_relationships = insert(RecipesIngridients).values(relationships)
+    insert_ingridients = insert(Ingredient).values(ingredients)
+    insert_relationships = insert(RecipesIngredients).values(relationships)
 
     async with async_session() as session:
         await session.execute(insert_recipes)
@@ -54,3 +54,15 @@ async def get_recipe_by_id(recipe_id: int) -> Recipe:
         result = await session.execute(query)
 
     return result.unique().scalar()
+
+
+async def get_all_ingredients() -> list[Ingredient]:
+    """Get all ingredients from the database."""
+    async with async_session() as session:
+        query = (
+            select(Recipe)
+            .order_by(Recipe.views_qty.desc())
+            .order_by(Recipe.cooking_time)
+        )
+        result = await session.execute(query)
+    return result.unique().scalars().all()

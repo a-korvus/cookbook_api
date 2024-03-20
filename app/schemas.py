@@ -22,13 +22,13 @@ class RecipeSchemaDeatil(BaseModel):
         examples=["Пирог с черничным вареньем"],
         default=None,
     )
-    ingridients: list["RecipesIngridientsSchema"] | None = None
+    ingredients: list["RecipesIngredientsSchema"] | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class IngridientSchema(BaseModel):
-    """Schema of the Ingridient model for creating the model."""
+class IngredientSchema(BaseModel):
+    """Schema of the Ingredient model for creating the model."""
 
     name: str = Field(examples=["Мука"], max_length=250)
     description: str | None = Field(
@@ -39,10 +39,10 @@ class IngridientSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class RecipesIngridientsSchema(BaseModel):
-    """Schema of the RecipesIngridients model."""
+class RecipesIngredientsSchema(BaseModel):
+    """Schema of the RecipesIngredients model."""
 
-    ingridient: "IngridientSchema"
+    ingridient: "IngredientSchema"
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -31,7 +31,7 @@ class Recipe(Base):
         default=0,
     )
 
-    ingridients: Mapped[list["RecipesIngridients"]] = relationship(
+    ingredients: Mapped[list["RecipesIngredients"]] = relationship(
         back_populates="recipe",
         lazy="joined",
     )
@@ -50,38 +50,38 @@ class Ingredient(Base):
     name: Mapped[name_exist]
     description: Mapped[str | None]
 
-    recipes: Mapped[list["RecipesIngridients"]] = relationship(
-        back_populates="ingridient",
+    recipes: Mapped[list["RecipesIngredients"]] = relationship(
+        back_populates="ingredient",
         lazy="joined",
     )
 
     def __repr__(self) -> str:
         """Show string representation of an object."""
-        return f"Ingridient (id={self.id!r}, name={self.name!r})"
+        return f"Ingredient (id={self.id!r}, name={self.name!r})"
 
 
-class RecipesIngridients(Base):
+class RecipesIngredients(Base):
     """Association model for many-to-many relationships.
 
-    Between Recipe and Ingridient models.
+    Between Recipe and Ingredient models.
     """
 
-    __tablename__ = "recipes_ingridients_table"
+    __tablename__ = "recipes_ingredients_table"
 
     recipe_id: Mapped[int] = mapped_column(
         ForeignKey("recipe_table.id"),
         primary_key=True,
     )
-    ingridient_id: Mapped[int] = mapped_column(
+    ingredient_id: Mapped[int] = mapped_column(
         ForeignKey("ingredient_table.id"),
         primary_key=True,
     )
 
     recipe: Mapped["Recipe"] = relationship(
-        back_populates="ingridients",
+        back_populates="ingredients",
         lazy="joined",
     )
-    ingridient: Mapped["Ingredient"] = relationship(
+    ingredient: Mapped["Ingredient"] = relationship(
         back_populates="recipes",
         lazy="joined",
     )
